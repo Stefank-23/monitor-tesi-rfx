@@ -6,7 +6,7 @@ import os
 TOKEN = os.getenv('TELEGRAM_TOKEN')
 CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 # URL della pagina del Consorzio RFX (Verifica che sia corretto)
-URL = "https://www.igi.cn/formazione/tesi-di-laurea-magistrale/"
+URL = "https://igi.cn/formazione/tesi-di-laurea-magistrale/"
 
 def invia_telegram(messaggio):
     url_tg = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
