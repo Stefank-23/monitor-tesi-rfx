@@ -22,15 +22,22 @@ def controlla():
         soup = BeautifulSoup(response.text, 'html.parser')
         
         tesi_attuali = []
-        # Cerchiamo tutti i link e i testi nella pagina
-        for elemento in soup.find_all(['a', 'h3', 'p']):
+        
+       # Cerchiamo in quasi tutti i tag testuali comuni
+        for elemento in soup.find_all(['a', 'h3', 'h4', 'p', 'span', 'li', 'div']):
             testo = elemento.get_text().strip()
             
-            # Applichiamo i tuoi filtri
+            # Trasformiamo tutto in minuscolo solo per il controllo
+            testo_minuscolo = testo.lower()
+            
+            # Filtro più flessibile
             if len(testo) > 10:
-                if "Topic of thesis" in testo or "Abstract" in testo:
+                parole_chiave = ["topic", "thesis", "abstract", "tesi", "proposta"]
+                if any(p in testo_minuscolo for p in parole_chiave):
                     if testo not in tesi_attuali:
                         tesi_attuali.append(testo)
+                        # Debug: scrive nel log di GitHub cosa ha trovato
+                        print(f"Trovato: {testo}")
 
         # Gestione del file storico
         file_storico = "tesi_viste.txt"
