@@ -18,13 +18,19 @@ def controlla():
                 testo = elemento.get_text().strip()
                 testo_low = testo.lower()
                 
+                if len(testo) > 5:
+                    print(f"DEBUG - Vedo questo: {testo}")
+                    # Per ora commentiamo il filtro delle parole chiave
+                    # if any(p in testo_low for p in parole):
+                    tesi_attuali.append(testo)
+                    
                 # Filtri per parole chiave
-                if len(testo) > 10:
-                    parole = ["topic", "thesis", "abstract", "tesi", "proposta"]
-                    if any(p in testo_low for p in parole):
-                        if testo not in tesi_attuali:
-                            tesi_attuali.append(testo)
-                            print(f"DEBUG - Trovato: {testo}")
+               # if len(testo) > 10:
+                #    parole = ["topic", "thesis", "abstract", "tesi", "proposta"]
+                 #   if any(p in testo_low for p in parole):
+                  #      if testo not in tesi_attuali:
+                   #         tesi_attuali.append(testo)
+                    #        print(f"DEBUG - Trovato: {testo}")
 
             # Gestione storico e notifiche
             file_storico = "tesi_viste.txt"
