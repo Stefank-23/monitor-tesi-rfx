@@ -1,36 +1,28 @@
 def controlla():
-    # URL originale "impacchettato" nel proxy per evitare il timeout
-    url_base = "https://www.igi.cn/formazione/tesi-di-laurea-magistrale/"
-    proxy_url = f"https://api.allorigins.win/raw?url={url_base}"
+    # Usiamo Wikipedia come test: è stabile e non blocca gli script
+    url_test = "https://it.wikipedia.org/wiki/Energia_nucleare"
     
     tesi_attuali = []
     
     try:
-        print(f"Tentativo di connessione tramite proxy a: {url_base}")
-        # Chiamata tramite il servizio AllOrigins
-        response = requests.get(proxy_url, timeout=30)
+        print(f"Test di funzionamento su: {url_test}")
+        # Su Wikipedia non serve il proxy, basta una richiesta normale
+        response = requests.get(url_test, timeout=20)
         
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # Cerchiamo in tutti i tag possibili
-            for elemento in soup.find_all(['a', 'h3', 'h4', 'p', 'span', 'li', 'div']):
+            # Cerchiamo i titoli dei paragrafi (tag h2 e h3)
+            for elemento in soup.find_all(['h2', 'h3']):
                 testo = elemento.get_text().strip()
-                testo_low = testo.lower()
                 
+                # Usiamo una parola chiave che sappiamo esistere su Wikipedia
                 if len(testo) > 5:
-                    print(f"DEBUG - Vedo questo: {testo}")
-                    # Per ora commentiamo il filtro delle parole chiave
-                    # if any(p in testo_low for p in parole):
-                    tesi_attuali.append(testo)
-                    
-                # Filtri per parole chiave
-               # if len(testo) > 10:
-                #    parole = ["topic", "thesis", "abstract", "tesi", "proposta"]
-                 #   if any(p in testo_low for p in parole):
-                  #      if testo not in tesi_attuali:
-                   #         tesi_attuali.append(testo)
-                    #        print(f"DEBUG - Trovato: {testo}")
+                    # Se il titolo contiene "nucleare" o "reattore", lo prendiamo
+                    testo_low = testo.lower()
+                    if "nucleare" in testo_low or "reattore" in testo_low:
+                        tesi_attuali.append(testo)
+                        print(f"DEBUG - Trovato: {testo}")}")
 
             # Gestione storico e notifiche
             file_storico = "tesi_viste.txt"
