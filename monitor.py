@@ -17,11 +17,21 @@ def invia_telegram(messaggio):
         print(f"Errore invio Telegram: {e}")
 
 def controlla():
+    # 1. Identità per non essere bloccati
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    }
+    
+    # 2. Il "cestino" vuoto per i titoli
+    tesi_attuali = []
+    
     try:
-        response = requests.get(URL, timeout=15)
-        soup = BeautifulSoup(response.text, 'html.parser')
+        # 3. Chiamata al sito con timeout a 30 secondi
+        response = requests.get(URL, headers=headers, timeout=30)
         
-        tesi_attuali = []
+        # Se il sito risponde correttamente (codice 200)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
         
        # Cerchiamo in quasi tutti i tag testuali comuni
         for elemento in soup.find_all(['a', 'h3', 'h4', 'p', 'span', 'li', 'div']):
