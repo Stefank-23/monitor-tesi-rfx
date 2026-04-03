@@ -50,42 +50,6 @@ def controlla():
 
 if __name__ == "__main__":
     controlla()
-4. Imposta l'automazione (GitHub Actions)
-Ora dobbiamo dire a GitHub di premere "Play" per noi ogni giorno.
-
-Nel tuo repository, vai nella scheda Actions.
-
-Clicca su "set up a workflow yourself".
-
-Incolla questo codice (che farà girare lo script ogni giorno alle 8:00 e alle 18:00):
-
-YAML
-name: Monitor Tesi RFX
-on:
-  schedule:
-    - cron: '0 8,18 * * *' # Gira due volte al giorno
-  workflow_dispatch: # Permette di avviarlo a mano per test
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout codice
-        uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
-      - name: Installa dipendenze
-        run: pip install -r requirements.txt
-      - name: Esegui script
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python monitor.py
-      - name: Salva modifiche
-        run: |
-          git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           git add tesi_viste.txt
           git commit -m "Aggiornato registro tesi" || exit 0
