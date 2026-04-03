@@ -23,7 +23,7 @@ def controlla():
         for link in soup.find_all('a'):
             testo = link.get_text().strip()
             # Filtriamo solo i link che sembrano titoli di tesi
-            if len(testo) > 20 and ("Tesi" in testo or "Project" in testo or "Abstract" in testo or "Topic of thesis" in testo):
+            if len(testo) > 10 and ("Tesi" in testo or "Project" in testo or "Abstract" in testo or "Topic of thesis" in testo):
                 tesi_attuali.append(testo)
 
         # Leggi tesi già viste
