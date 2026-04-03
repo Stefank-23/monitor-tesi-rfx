@@ -5,7 +5,7 @@ import os
 # Configurazioni (prese dai "Secrets" di GitHub)
 TOKEN = os.getenv('TELEGRAM_TOKEN')
 CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
-URL = "https://www.igi.cn/formazione/tesi-di-laurea-magistrale/" # Verifica l'URL esatto
+URL = "https://www.igi.cnr.it/formazione/tesi-laurea/" # Verifica l'URL esatto
 
 def invia_telegram(messaggio):
     url_tg = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
@@ -23,7 +23,7 @@ def controlla():
         for link in soup.find_all('a'):
             testo = link.get_text().strip()
             # Filtriamo solo i link che sembrano titoli di tesi
-            if len(testo) > 20 and ("Tesi" in testo or "Project" in testo):
+            if len(testo) > 20 and ("Tesi" in testo or "Project" in testo or "Abstract" in testo or "Topic of thesis" in testo):
                 tesi_attuali.append(testo)
 
         # Leggi tesi già viste
