@@ -11,16 +11,18 @@ CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 URL = "https://it.wikipedia.org/wiki/Energia_nucleare"
 
 def invia_telegram(messaggio):
-    """Invia il messaggio al bot Telegram configurato."""
+    """Invia il messaggio in formato testo semplice per evitare errori 400."""
     url_tg = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     payload = {
         "chat_id": CHAT_ID, 
-        "text": messaggio, 
-        "parse_mode": "Markdown"
+        "text": messaggio  # Rimosso parse_mode per sicurezza
     }
     try:
         r = requests.post(url_tg, data=payload)
-        r.raise_for_status()
+        if r.status_code != 200:
+            print(f"Errore Telegram {r.status_code}: {r.text}")
+        else:
+            print("Messaggio inviato con successo!")
     except Exception as e:
         print(f"Errore invio Telegram: {e}")
 
